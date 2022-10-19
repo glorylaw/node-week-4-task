@@ -9,7 +9,7 @@
     "clean": "npx rimraf ./lib/",
     "compile": "tsc",
     "compile:watch": "tsc --watch",
-    "fix": "eslint --fix '**/*.ts'",
+    "fix": "eslint --fix '**/*.ts",
     "lint": "eslint '**/*.ts'",
     "test": "jest"
   },

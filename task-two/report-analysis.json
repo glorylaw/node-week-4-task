@@ -1,0 +1,25 @@
+{
+  "valid-domain": [
+    "example.com",
+    "gmail.com",
+    "decagon.com.ng",
+    "gmail.com",
+    "yahoo.com",
+    "decagon.dev",
+    "gmail.com",
+    "email.co.uk",
+    "mail.org",
+    "decagon.com.ng"
+  ],
+  "totalSortedEmail": 12,
+  "totalValidEmail": 10,
+  "categories": {
+    "example.com": 1,
+    "gmail.com": 3,
+    "decagon.com.ng": 2,
+    "yahoo.com": 1,
+    "decagon.dev": 1,
+    "email.co.uk": 1,
+    "mail.org": 1
+  }
+}

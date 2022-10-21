@@ -7,9 +7,9 @@ import emails from 'validator';
  * @param {string} outputPath The path to output the analysis
  */
 function analyseFiles(inputPaths: string[], outputPath: string) {
-  const domainArray: string[] = [];
-  const validEmailArray: string[] = [];
-  const sortedEmail: string[] = [];
+  let domainArray: string[] = [];
+  let validEmailArray: string[] = [];
+  let sortedEmail: string[] = [];
   const result: any = {};
 
   //looping through the inputpath, reading the file,validating the email and pushing the domain to populate our result
@@ -22,40 +22,26 @@ function analyseFiles(inputPaths: string[], outputPath: string) {
       }
       //split at spaces which is represented by \n
       const arraySplit: string[] = res.split('\n');
-
-      for (let j = 0; j < arraySplit.length; j++) {
-        if (arraySplit[j] === 'Emails' || arraySplit[j] === '') {
-          continue;
-        } else {
-          sortedEmail.push(arraySplit[j]);
-        }
-        //validate email
-        if (emails.isEmail(arraySplit[j])) {
-          const domain: string = arraySplit[j].split('@')[1];
-
-          validEmailArray.push(arraySplit[j]);
-          domainArray.push(domain);
-
-          //populate part of the result object which is the categories object in the main output
-          if (result[domain]) {
-            result[domain]++;
-          } else {
-            result[domain] = 1;
-          }
-        }
-      }
+      sortedEmail = arraySplit.filter((element) => element.toString()!= "Emails" && element.toString() != '');
+      validEmailArray = arraySplit.filter((element) => emails.isEmail(element));
+      domainArray = validEmailArray.map(item=>{
+        const domain = item.split('@')[1];
+        result[domain] = result[domain] ? result[domain]+1 : 1
+      
+        return domain
+      });
       //populate the actual object
       const outputObj: any = {
-        'valid-domain': domainArray,
-        totalSortedEmail: sortedEmail.length,
+        'valid-domain': [...new Set(domainArray)],
+        totalEmailsParsed: sortedEmail.length,
         totalValidEmail: validEmailArray.length,
         categories: result,
       };
       fs.writeFileSync(outputPath, JSON.stringify(outputObj, null, 2));
     });
   }
-  console.log('Complete the implementation in src/analysis.ts');
+  //console.log('Complete the implementation in src/analysis.ts');
 }
-//analyseFiles(['fixtures/inputs/small-sample.csv'], 'report-analysis.json');
+
 
 export default analyseFiles;

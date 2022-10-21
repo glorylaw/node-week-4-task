@@ -1,6 +1,4 @@
 import fs from 'fs';
-import { error } from 'console';
-import { resolve } from 'dns';
 const dig = require('node-dig-dns');
 
 /**
@@ -33,11 +31,7 @@ function validateEmailAddresses(inputPath: string[], outputFile: string) {
             if (res.answer) {
               validDomainArray.push(domainArray[i]);
             }
-            const filterArr: string[] = splitArr.filter((items) => {
-              if (validDomainArray.includes(items.split('@')[1])) {
-                return items;
-              }
-            });
+            const filterArr: string[] = splitArr.filter((items) => validDomainArray.includes(items.split('@')[1]));
             fs.writeFileSync(outputFile, 'Emails\n' + filterArr.join('\n'));
           })
           .catch((e: any) => {
@@ -46,11 +40,7 @@ function validateEmailAddresses(inputPath: string[], outputFile: string) {
       }
     });
   }
-  console.log('Complete the implementation in src/validation.ts');
+  
 }
 
 export default validateEmailAddresses;
-validateEmailAddresses(
-  ['fixtures/inputs/small-sample.csv'],
-  'report-validation.csv',
-);
